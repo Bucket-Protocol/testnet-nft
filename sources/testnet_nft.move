@@ -1,4 +1,4 @@
-module testnet_nft::bucket_logo_nft {
+module testnet_nft::bucket_testnet_nft {
 
     use std::string::utf8;
     use sui::object::{Self, UID};
@@ -6,18 +6,27 @@ module testnet_nft::bucket_logo_nft {
     use sui::transfer;
     use sui::package;
     use sui::display;
+    use sui::sui::SUI;
+    // use sui::table::{Self, Table};
+    use bucket_protocol::buck::{Self, BUCK, BucketProtocol};
+    use bucket_protocol::bucket;
+    use bucket_protocol::tank::{Self, ContributorToken};
+    use bucket_protocol::bottle;
 
-    const NAME: vector<u8> = b"Bucket Logo";
+    const NAME: vector<u8> = b"Bucket Testnet NFT";
     const IMAGE_URL: vector<u8> = b"https://ipfs.io/ipfs/QmTKZ2CX8RzkJeqCpaYPHbS5sFyCQdtasxyYb96Xmns1Cv";
-    const DESCRIPTION: vector<u8> = b"CDP Protocol Built On Sui Network, providing 0% interest loan and decentralized native stablecoin";
+    const DESCRIPTION: vector<u8> = b"CDP Protocol Built On Sui Network, providing zero interest loan and decentralized native stablecoin";
     const OFFICIAL_URL: vector<u8> = b"https://bucketprotocol.io";
     const CREATOR: vector<u8> = b"Bucket Protocol";
 
-    struct BUCKET_LOGO_NFT has drop {}
+    const ENoBottleInBucket: u64 = 0;
+    const ENoBuckInTank: u64 = 1;
 
-    struct BucketLogoNFT has key, store { id: UID }
+    struct BUCKET_TESTNET_NFT has drop {}
 
-    fun init(otw: BUCKET_LOGO_NFT, ctx: &mut TxContext) {
+    struct BucketTestnetNFT has key, store { id: UID }
+
+    fun init(otw: BUCKET_TESTNET_NFT, ctx: &mut TxContext) {
         let keys = vector[
             utf8(b"name"),
             utf8(b"image_url"),
@@ -35,20 +44,41 @@ module testnet_nft::bucket_logo_nft {
         ];
 
         let publisher = package::claim(otw, ctx);
-        let display = display::new_with_fields<BucketLogoNFT>(
+        let display = display::new_with_fields<BucketTestnetNFT>(
             &publisher, keys, values, ctx
         );
 
         display::update_version(&mut display);
 
-        transfer::public_transfer(publisher, tx_context::sender(ctx));
-        transfer::public_transfer(display, tx_context::sender(ctx));
+        let deployer = tx_context::sender(ctx);
+        transfer::public_transfer(publisher, deployer);
+        transfer::public_transfer(display, deployer);
     }
 
-    public entry fun mint(ctx: &mut TxContext) {
+    public entry fun mint(
+        protocol: &BucketProtocol,
+        token: &ContributorToken<BUCK, SUI>,
+        ctx: &mut TxContext
+    ) {
+        let sender = tx_context::sender(ctx);
+
+        assert!(has_bottle_in_bucket(protocol, sender), ENoBottleInBucket);
+        assert!(has_buck_in_tank(protocol, token), ENoBuckInTank);
+
         transfer::transfer(
-            BucketLogoNFT { id: object::new(ctx) },
+            BucketTestnetNFT { id: object::new(ctx) },
             tx_context::sender(ctx),
         );
+    }
+
+    public fun has_bottle_in_bucket(protocol: &BucketProtocol, user: address): bool {
+        let bucket = buck::borrow_bucket<SUI>(protocol);
+        let bottle_table = bucket::borrow_bottle_table(bucket);
+        bottle::bottle_exists(bottle_table, user)
+    }
+
+    public fun has_buck_in_tank(protocol: &BucketProtocol, token: &ContributorToken<BUCK, SUI>): bool {
+        let tank = buck::borrow_tank<SUI>(protocol);
+        tank::get_token_weight(tank, token) > 0
     }
 }
