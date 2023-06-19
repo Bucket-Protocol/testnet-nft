@@ -14,7 +14,7 @@ module testnet_nft::bucket_testnet_nft {
     use bucket_protocol::bottle;
 
     const NAME: vector<u8> = b"Bucket Testnet NFT";
-    const IMAGE_URL: vector<u8> = b"https://ipfs.io/ipfs/QmTKZ2CX8RzkJeqCpaYPHbS5sFyCQdtasxyYb96Xmns1Cv";
+    const IMAGE_URL: vector<u8> = b"https://ipfs.io/ipfs/QmXA3GV52pa4qYYqN21hUhovfn9eKMwobHVF9qxTCMPg38";
     const DESCRIPTION: vector<u8> = b"CDP Protocol Built On Sui Network, providing zero interest loan and decentralized native stablecoin";
     const OFFICIAL_URL: vector<u8> = b"https://bucketprotocol.io";
     const CREATOR: vector<u8> = b"Bucket Protocol";
