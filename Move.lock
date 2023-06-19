@@ -4,39 +4,7 @@
 version = 0
 
 dependencies = [
-  { name = "BucketProtocol" },
   { name = "Sui" },
-]
-
-[[move.package]]
-name = "BucketFramework"
-source = { local = "../v1-core/framework" }
-
-dependencies = [
-  { name = "Sui" },
-]
-
-[[move.package]]
-name = "BucketOracle"
-source = { git = "https://github.com/Bucket-Protocol/oracle.git", rev = "testnet", subdir = "" }
-
-dependencies = [
-  { name = "Pyth" },
-  { name = "Sui" },
-  { name = "SupraOracle" },
-  { name = "SwitchboardStdLib" },
-  { name = "TestnetCoins" },
-]
-
-[[move.package]]
-name = "BucketProtocol"
-source = { local = "../v1-core/protocol" }
-
-dependencies = [
-  { name = "BucketFramework" },
-  { name = "BucketOracle" },
-  { name = "Sui" },
-  { name = "TestnetCoins" },
 ]
 
 [[move.package]]
@@ -44,51 +12,9 @@ name = "MoveStdlib"
 source = { git = "https://github.com/MystenLabs/sui.git", rev = "framework/testnet", subdir = "crates/sui-framework/packages/move-stdlib" }
 
 [[move.package]]
-name = "Pyth"
-source = { git = "https://github.com/Bucket-Protocol/oracle.git", rev = "testnet", subdir = "partners/pyth" }
-
-dependencies = [
-  { name = "Sui" },
-  { name = "Wormhole" },
-]
-
-[[move.package]]
 name = "Sui"
 source = { git = "https://github.com/MystenLabs/sui.git", rev = "framework/testnet", subdir = "crates/sui-framework/packages/sui-framework" }
 
 dependencies = [
   { name = "MoveStdlib" },
-]
-
-[[move.package]]
-name = "SupraOracle"
-source = { git = "https://github.com/Bucket-Protocol/oracle.git", rev = "testnet", subdir = "partners/supra" }
-
-dependencies = [
-  { name = "Sui" },
-]
-
-[[move.package]]
-name = "SwitchboardStdLib"
-source = { git = "https://github.com/Bucket-Protocol/oracle.git", rev = "testnet", subdir = "partners/switchboard" }
-
-dependencies = [
-  { name = "MoveStdlib" },
-  { name = "Sui" },
-]
-
-[[move.package]]
-name = "TestnetCoins"
-source = { git = "https://github.com/Bucket-Protocol/testnet-coins.git", rev = "main", subdir = "" }
-
-dependencies = [
-  { name = "Sui" },
-]
-
-[[move.package]]
-name = "Wormhole"
-source = { git = "https://github.com/Bucket-Protocol/oracle.git", rev = "testnet", subdir = "partners/pyth/wormhole" }
-
-dependencies = [
-  { name = "Sui" },
 ]
