@@ -7,9 +7,9 @@ module testnet_nft::bucket_testnet_nft {
     use sui::package;
     use sui::display;
 
-    const NAME: vector<u8> = b"Bucket Protocol Early Participant NFT";
+    const NAME: vector<u8> = b"Bucket Protocol Testnet Early User NFT";
     const IMAGE_URL: vector<u8> = b"https://ipfs.io/ipfs/QmPqm3RkbxEqQVdQHXh8iVvrFe5x5fv9EYdJ6BwF4SJZHG";
-    const DESCRIPTION: vector<u8> = b"CDP Protocol Built On Sui Network, providing zero interest loan and decentralized native stablecoin $BUCK";
+    const DESCRIPTION: vector<u8> = b"Identity proof of testnet early user of Bucket Protocol";
     const OFFICIAL_URL: vector<u8> = b"https://bucketprotocol.io";
     const CREATOR: vector<u8> = b"Bucket Protocol";
     const SUI_WALLET_RECIPIENT: address = @0x73c88d432ad4b2bfc5170148faae6f11f39550fb84f9b83c8d152dd89bc8eda3;
