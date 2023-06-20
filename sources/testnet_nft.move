@@ -13,9 +13,9 @@ module testnet_nft::bucket_testnet_nft {
     use bucket_protocol::tank::{Self, ContributorToken};
     use bucket_protocol::bottle;
 
-    const NAME: vector<u8> = b"Bucket Protocol Early Participant NFT";
+    const NAME: vector<u8> = b"Bucket Protocol Testnet Early User NFT";
     const IMAGE_URL: vector<u8> = b"https://ipfs.io/ipfs/QmPqm3RkbxEqQVdQHXh8iVvrFe5x5fv9EYdJ6BwF4SJZHG";
-    const DESCRIPTION: vector<u8> = b"CDP Protocol Built On Sui Network, providing zero interest loan and decentralized native stablecoin $BUCK";
+    const DESCRIPTION: vector<u8> = b"Identity proof of testnet early user of Bucket Protocol";
     const OFFICIAL_URL: vector<u8> = b"https://bucketprotocol.io";
     const CREATOR: vector<u8> = b"Bucket Protocol";
 
