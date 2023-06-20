@@ -8,6 +8,7 @@ module testnet_nft::bucket_testnet_nft {
     use sui::display;
     use sui::sui::SUI;
     use sui::table::{Self, Table};
+    use sui::clock::{Self, Clock};
     use bucket_protocol::buck::{Self, BUCK, BucketProtocol};
     use bucket_protocol::bucket;
     use bucket_protocol::tank::{Self, ContributorToken};
@@ -18,10 +19,12 @@ module testnet_nft::bucket_testnet_nft {
     const DESCRIPTION: vector<u8> = b"Identity proof of testnet early user of Bucket Protocol";
     const OFFICIAL_URL: vector<u8> = b"https://bucketprotocol.io";
     const CREATOR: vector<u8> = b"Bucket Protocol";
+    const DEADLINE: u64 = 1687881600000; // 2023/06/28
 
-    const ENoBottleInBucket: u64 = 0;
-    const ENoBuckInTank: u64 = 1;
-    const EAlreadyMinted: u64 = 2;
+    const ECampaignEnded: u64 = 0;
+    const ENoBottleInBucket: u64 = 1;
+    const ENoBuckInTank: u64 = 2;
+    const EAlreadyMinted: u64 = 3;
 
     struct BUCKET_TESTNET_NFT has drop {}
 
@@ -68,6 +71,7 @@ module testnet_nft::bucket_testnet_nft {
     }
 
     public entry fun mint(
+        clock: &Clock,
         protocol: &BucketProtocol,
         token: &ContributorToken<BUCK, SUI>,
         check_table: &mut CheckTable,
@@ -75,6 +79,7 @@ module testnet_nft::bucket_testnet_nft {
     ) {
         let sender = tx_context::sender(ctx);
 
+        assert!(clock::timestamp_ms(clock) < DEADLINE, ECampaignEnded);
         assert!(has_bottle_in_bucket(protocol, sender), ENoBottleInBucket);
         assert!(has_buck_in_tank(protocol, token), ENoBuckInTank);
         let token_id = *object::borrow_id(token);
